@@ -114,7 +114,7 @@
 	return TRUE
 
 /obj/item/defibrillator/attack(mob/living/carbon/human/H, mob/living/carbon/human/user)
-	if(user.action_busy) //Currently deffibing
+	if(user.do_actions) //Currently deffibing
 		return
 
 	if(defib_cooldown > world.time) //Both for pulling the paddles out (2 seconds) and shocking (1 second)
@@ -241,6 +241,7 @@
 	H.apply_effect(10, PARALYZE)
 	H.handle_regular_hud_updates()
 	H.updatehealth() //One more time, so it doesn't show the target as dead on HUDs
+	H.dead_ticks = 0 //We reset the DNR time
 	to_chat(H, "<span class='notice'>You suddenly feel a spark and your consciousness returns, dragging you back to the mortal plane.</span>")
 
 	notify_ghosts("<b>[user]</b> has brought <b>[H.name]</b> back to life!", source = H, action = NOTIFY_ORBIT)
